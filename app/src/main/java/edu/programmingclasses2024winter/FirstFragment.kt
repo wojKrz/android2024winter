@@ -1,10 +1,14 @@
 package edu.programmingclasses2024winter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
+import edu.programmingclasses2024winter.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
 
@@ -12,7 +16,14 @@ class FirstFragment : Fragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.fragment_first, container)
+  ): View {
+    val binding = FragmentFirstBinding.inflate(inflater, container, false)
+    binding.button.setOnClickListener {
+      val argument = binding.textInput.text.toString()
+
+      val action = FirstFragmentDirections.actionNavigateToSecondScreen(typedText = argument)
+      findNavController().navigate(action)
+    }
+    return binding.root
   }
 }
