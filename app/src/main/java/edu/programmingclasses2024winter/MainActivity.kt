@@ -10,64 +10,41 @@ import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity() {
 
-  lateinit var text: TextView
-  lateinit var button: Button
-  var editText: TextInputEditText? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
+    Log.d("Lifecycle", "OnCreate starting")
     super.onCreate(savedInstanceState)
-
     setContentView(R.layout.activity_main)
-
-    text = findViewById(R.id.helloText)
-    button = findViewById(R.id.button)
-
-    try {
-      editText = findViewById(R.id.textInput)
-    } catch (npe: NullPointerException) { }
-
-    button.setOnClickListener {
-      val intent = Intent(this, SecondActivity::class.java)
-      intent.putExtra("inputText", editText?.text?.toString() ?: "No text was available")
-      startActivity(intent)
-    }
-
-    text.text = savedInstanceState?.getString(TEXT_KEY).orEmpty()
-
-    Log.d("Lifecycle", "On create")
+    Log.d("Lifecycle", "OnCreate returning")
   }
 
   override fun onStart() {
     super.onStart()
-    Log.d("Lifecycle", "On start")
+    Log.d("Lifecycle", "OnStart")
   }
 
   override fun onResume() {
     super.onResume()
-    Log.d("Lifecycle", "On resume")
+    Log.d("Lifecycle", "OnResume")
   }
 
   override fun onPause() {
     super.onPause()
-    Log.d("Lifecycle", "On pause")
+    Log.d("Lifecycle", "OnPause")
   }
 
   override fun onStop() {
     super.onStop()
-    Log.d("Lifecycle", "On stop")
+    Log.d("Lifecycle", "OnStop")
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    Log.d("Lifecycle", "On destroy")
-  }
-
-  override fun onSaveInstanceState(outState: Bundle) {
-    super.onSaveInstanceState(outState)
-    outState.putString(TEXT_KEY, text.text.toString())
+    Log.d("Lifecycle", "OnDestroy")
   }
 
   companion object {
-    private const val TEXT_KEY = "text"
+    private val HELLO_TEXT_KEY = "HELLO_TEXT"
+    val TEXT_INPUT_KEY = "TEXT_INPUT"
   }
 }

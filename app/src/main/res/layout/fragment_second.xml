@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+  <data>
+    <import type="edu.programmingclasses2024winter.User" />
+    <variable
+      name="user"
+      type="User" />
+  </data>
+
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/userIdText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{user.userId}"
+      android:textSize="64sp" />
+
+    <TextView
+      android:id="@+id/userNameText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{user.userName}"
+      android:textSize="64sp" />
+
+    <TextView
+      android:id="@+id/userAgeText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{String.valueOf(user.age + 4)}"
+      android:textSize="64sp" />
+
+    <Button
+      android:id="@+id/navButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:text="Navigate" />
+
+    <Button
+      android:id="@+id/actionButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|end"
+      android:text="Do some action" />
+
+  </LinearLayout>
+</layout>

@@ -5,11 +5,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class SecondActivity : AppCompatActivity() {
+
+  private lateinit var textView: TextView
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_second)
-    val data = intent.getStringExtra("inputText")
 
-    findViewById<TextView>(R.id.dataText).text = data
+    textView = findViewById(R.id.secondTextView)
+
+    textView.text = intent.extras?.getString(MainActivity.TEXT_INPUT_KEY)
   }
 }

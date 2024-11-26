@@ -1,6 +1,8 @@
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.jetbrains.kotlin.android)
+  id("androidx.navigation.safeargs.kotlin")
+  id("kotlin-kapt")
 }
 
 android {
@@ -15,6 +17,10 @@ android {
     versionName = "1.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  buildFeatures {
+    dataBinding = true
   }
 
   buildTypes {
@@ -36,6 +42,12 @@ dependencies {
 
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.appcompat)
+  val nav_version = "2.8.3"
+
+  implementation("androidx.navigation:navigation-compose:$nav_version")
+  implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+  implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
   implementation(libs.material)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
