@@ -47,6 +47,7 @@ dependencies {
   implementation("androidx.navigation:navigation-compose:$nav_version")
   implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
   implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+  implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
   implementation(libs.material)
   testImplementation(libs.junit)

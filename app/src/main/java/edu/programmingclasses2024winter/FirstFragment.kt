@@ -7,12 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import edu.programmingclasses2024winter.FirstViewData.HasData
+import edu.programmingclasses2024winter.FirstViewData.IsInProgress
 import edu.programmingclasses2024winter.databinding.FragmentFirstBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.IOException
 
 class FirstFragment : Fragment() {
 
   private lateinit var binding: FragmentFirstBinding
+
+  private val viewModel: FirstViewModel by viewModels()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -27,7 +44,7 @@ class FirstFragment : Fragment() {
     binding = FragmentFirstBinding.inflate(inflater, container, false)
 
     binding.navButton.setOnClickListener {
-      navigateToSecondFragment()
+      viewModel.makeNetworkCall()
     }
     binding.helloButton.setOnClickListener {
       findNavController().navigate(
@@ -37,14 +54,14 @@ class FirstFragment : Fragment() {
     return binding.root
   }
 
-  private fun navigateToSecondFragment() {
-    val action = binding.textInput.text.toString()
-      .takeIf(String::isNotEmpty)
-      ?.run(FirstFragmentDirections::actionNavigateToSecondFragment)
-      ?: FirstFragmentDirections.actionNavigateToSecondFragment()
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
-    findNavController().navigate(action)
+    viewModel.resultLiveData.observe(viewLifecycleOwner) { data ->
+      binding.resultData = data
+    }
   }
+
 
   override fun onViewStateRestored(savedInstanceState: Bundle?) {
     super.onViewStateRestored(savedInstanceState)
