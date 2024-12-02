@@ -1,13 +1,11 @@
 package edu.programmingclasses2024winter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,15 +29,17 @@ class FirstViewModel : ViewModel() {
 
   private val postsApi = retrofit.create(PostsApi::class.java)
 
-  private val _resultLiveData = MutableLiveData<Post>()
-  val resultLiveData: LiveData<Post> = _resultLiveData
+  private val getPostsUseCase = GetPostsUseCase(
+    Dispatchers.IO,
+    postsApi
+  )
 
-  fun makeNetworkCall() {
+  private val _resultLiveData = MutableLiveData<List<Post>>()
+  val resultLiveData: LiveData<List<Post>> = _resultLiveData
+
+  fun getPosts() {
     viewModelScope.launch {
-      val deferred = async(Dispatchers.IO) {
-        postsApi.makeAnotherFunctionCall("4")
-      }
-      _resultLiveData.value = deferred.await()
+      _resultLiveData.value = getPostsUseCase.invoke()
     }
   }
 }
