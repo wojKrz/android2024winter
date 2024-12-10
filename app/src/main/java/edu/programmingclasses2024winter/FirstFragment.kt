@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import edu.programmingclasses2024winter.FirstViewData.HasData
-import edu.programmingclasses2024winter.FirstViewData.IsInProgress
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.programmingclasses2024winter.databinding.FragmentFirstBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -27,6 +27,10 @@ import java.io.IOException
 
 class FirstFragment : Fragment() {
 
+  private val postsAdapter = PostListAdapter(
+    emptyList(),
+    ::onIsReadClick
+  )
   private lateinit var binding: FragmentFirstBinding
 
   private val viewModel: FirstViewModel by viewModels()
@@ -43,6 +47,13 @@ class FirstFragment : Fragment() {
   ): View {
     binding = FragmentFirstBinding.inflate(inflater, container, false)
 
+    val postsListLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+    binding.postsList.apply {
+      adapter = postsAdapter
+      layoutManager = postsListLayoutManager
+    }
+
     binding.navButton.setOnClickListener {
       viewModel.makeNetworkCall()
     }
@@ -58,13 +69,17 @@ class FirstFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
 
     viewModel.resultLiveData.observe(viewLifecycleOwner) { data ->
-      binding.resultData = data
+      postsAdapter.posts = data.result
+      postsAdapter.notifyDataSetChanged()
     }
   }
-
 
   override fun onViewStateRestored(savedInstanceState: Bundle?) {
     super.onViewStateRestored(savedInstanceState)
     Log.d("Lifecycle", "OnViewStateRestored $savedInstanceState")
+  }
+
+  private fun onIsReadClick(index: Int) {
+    viewModel.toggleIsPostRead(index)
   }
 }
