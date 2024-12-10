@@ -6,6 +6,16 @@
   android:id="@+id/nav_main"
   app:startDestination="@id/firstFragment">
 
+  <action
+    android:id="@+id/actionNavigateToWelcomeDialog"
+    app:launchSingleTop="true"
+    app:destination="@id/welcomeDialog" />
+
+  <dialog
+    android:id="@+id/welcomeDialog"
+    android:name="edu.programmingclasses2024winter.welcome.WelcomeDialog"
+    tools:layout="@layout/dialog_welcome" />
+
   <fragment
     android:id="@+id/firstFragment"
     android:name="edu.programmingclasses2024winter.FirstFragment"
