@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +18,8 @@ import edu.programmingclasses2024winter.databinding.FragmentFirstBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Call
@@ -24,6 +28,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+
+val COUNTER = intPreferencesKey("counter")
 
 class FirstFragment : Fragment() {
 
@@ -55,14 +61,23 @@ class FirstFragment : Fragment() {
     }
 
     binding.navButton.setOnClickListener {
-      viewModel.makeNetworkCall()
+      lifecycleScope.launch {
+        incrementCounterInPrefs()
+      }
     }
     binding.helloButton.setOnClickListener {
-      findNavController().navigate(
-        NavMainDirections.actionNavigateToThirdFragment()
-      )
+      lifecycleScope.launch {
+        incrementCounterInPrefs()
+      }
     }
     return binding.root
+  }
+
+  private suspend fun incrementCounterInPrefs() {
+    context?.myDataStore?.edit {
+      val current = it[COUNTER] ?: 0
+      it[COUNTER] = current.inc()
+    }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,6 +86,14 @@ class FirstFragment : Fragment() {
     viewModel.resultLiveData.observe(viewLifecycleOwner) { data ->
       postsAdapter.posts = data.result
       postsAdapter.notifyDataSetChanged()
+    }
+
+    lifecycleScope.launch {
+      context?.myDataStore?.data
+        ?.map { it[COUNTER] ?: 0 }
+        ?.collect {
+          binding.counter.text = it.toString()
+        }
     }
   }
 

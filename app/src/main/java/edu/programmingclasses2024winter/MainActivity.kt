@@ -1,15 +1,25 @@
 package edu.programmingclasses2024winter
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+
+val HAS_USER_SEEN_WELCOME_SCREEN = booleanPreferencesKey("hasUserSeenWelcomeScreen")
+val Context.myDataStore by preferencesDataStore("filename")
 
 class MainActivity : AppCompatActivity() {
-
 
   override fun onCreate(savedInstanceState: Bundle?) {
     Log.d("Lifecycle", "OnCreate starting")
@@ -20,27 +30,20 @@ class MainActivity : AppCompatActivity() {
 
   override fun onStart() {
     super.onStart()
-    Log.d("Lifecycle", "OnStart")
-  }
 
-  override fun onResume() {
-    super.onResume()
-    Log.d("Lifecycle", "OnResume")
-  }
+    lifecycleScope.launch {
+      val hasUserSeenWelcomeScreen = baseContext
+        .myDataStore
+        .data
+        .map { preferences -> preferences[HAS_USER_SEEN_WELCOME_SCREEN] }
+        .first() ?: false
 
-  override fun onPause() {
-    super.onPause()
-    Log.d("Lifecycle", "OnPause")
-  }
-
-  override fun onStop() {
-    super.onStop()
-    Log.d("Lifecycle", "OnStop")
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    Log.d("Lifecycle", "OnDestroy")
+      if (hasUserSeenWelcomeScreen.not()) {
+        with(findNavController(R.id.navFragment)) {
+          navigate(R.id.actionNavigateToWelcomeDialog)
+        }
+      }
+    }
   }
 
   companion object {

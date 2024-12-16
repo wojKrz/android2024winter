@@ -15,6 +15,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+      android:id="@+id/counter"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="24sp"
+      android:layout_gravity="center_horizontal|top"/>
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/postsList"
@@ -34,7 +40,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom"
-      android:text="Nav to third" />
+      android:text="Increase counter" />
 
     <Button
       android:id="@+id/navButton"
