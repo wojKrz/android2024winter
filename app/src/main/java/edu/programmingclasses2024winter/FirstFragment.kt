@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,19 +42,13 @@ class FirstFragment : Fragment() {
       postsAdapter.data = data
       postsAdapter.notifyDataSetChanged()
     }
+
+    viewModel.errorLiveData.observe(viewLifecycleOwner) { error ->
+      Toast.makeText(requireContext(), error.text, Toast.LENGTH_SHORT).show()
+    }
   }
 
   private fun onIsReadClick(index: Int) {
-    val postToMarkAsRead = postsAdapter.data[index]
-    val markedPost = postToMarkAsRead.copy(isRead = postToMarkAsRead.isRead.not())
-    val newPostsList = postsAdapter.data
-      .run {
-        val list = toMutableList()
-        list[index] = markedPost
-        list.toList()
-      }
-
-    postsAdapter.data = newPostsList
-    postsAdapter.notifyItemChanged(index)
+    viewModel.toggleIsPostRead(postsAdapter.data[index])
   }
 }

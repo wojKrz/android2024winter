@@ -5,5 +5,5 @@ data class Post(
   val userId: Int,
   val title: String,
   val body: String,
-  val isRead: Boolean = false
+  val isRead: Boolean = false,
 )
