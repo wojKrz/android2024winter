@@ -1,18 +1,20 @@
 package edu.programmingclasses2024winter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import edu.programmingclasses2024winter.usecases.DownloadPostsUseCase
+import edu.programmingclasses2024winter.usecases.ToggleIsPostReadUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.UnknownHostException
 
 class FirstViewModel : ViewModel() {
 
@@ -32,28 +34,46 @@ class FirstViewModel : ViewModel() {
 
   private val api = retrofit.create(NetworkApi::class.java)
 
-  private val _resultLiveData = MutableLiveData<FirstViewData>()
-  val resultLiveData: LiveData<FirstViewData> = _resultLiveData
+  private val dao = MyApplication.database.postDao()
+
+  private val mapper = PostMapper()
+
+  private val repository = PostRepository(
+    dao, mapper
+  )
+
+  private val downloadPostsUseCase = DownloadPostsUseCase(
+    api, repository
+  )
+
+  private val toggleIsPostReadUseCase = ToggleIsPostReadUseCase(
+    repository
+  )
+
+  private val _resultLiveData = MutableLiveData<List<Post>>()
+  val resultLiveData: LiveData<List<Post>> = _resultLiveData
+
+  init {
+    viewModelScope.launch {
+      repository.getAllPosts()
+        .collect {
+          _resultLiveData.value = it
+        }
+    }
+  }
 
   fun makeNetworkCall() {
-    viewModelScope.launch {
-      val deferred = async(Dispatchers.IO) {
-        api.getPosts()
-      }
-      _resultLiveData.value = deferred.await().run { FirstViewData(this) }
+    viewModelScope.launch(Dispatchers.IO) {
+      downloadPostsUseCase()
     }
   }
 
   fun toggleIsPostRead(index: Int) {
-    val currentList = _resultLiveData.value?.result ?: return
+    val currentList = _resultLiveData.value ?: return
     val toggledPost = currentList[index]
-    val modifiedPost = toggledPost.copy(isRead = toggledPost.isRead.not())
 
-    _resultLiveData.value = currentList.toMutableList()
-      .also { modifiedList ->
-        modifiedList[index] = modifiedPost
-      }
-      .toList()
-      .run(::FirstViewData)
+    viewModelScope.launch {
+      toggleIsPostReadUseCase(toggledPost)
+    }
   }
 }

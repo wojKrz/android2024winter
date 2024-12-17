@@ -3,6 +3,7 @@ plugins {
   alias(libs.plugins.jetbrains.kotlin.android)
   id("androidx.navigation.safeargs.kotlin")
   id("kotlin-kapt")
+  id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -52,6 +53,14 @@ dependencies {
   implementation("com.squareup.retrofit2:converter-gson:2.11.0")
   implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
   implementation("androidx.datastore:datastore-preferences:1.1.1")
+  val room_version = "2.6.1"
+
+  implementation("androidx.room:room-runtime:$room_version")
+  implementation("androidx.room:room-ktx:$room_version")
+  annotationProcessor("androidx.room:room-compiler:$room_version")
+
+  // To use Kotlin annotation processing tool (kapt)
+  kapt("androidx.room:room-compiler:$room_version")
 
   implementation(libs.material)
   testImplementation(libs.junit)

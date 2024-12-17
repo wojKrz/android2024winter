@@ -61,9 +61,7 @@ class FirstFragment : Fragment() {
     }
 
     binding.navButton.setOnClickListener {
-      lifecycleScope.launch {
-        incrementCounterInPrefs()
-      }
+      viewModel.makeNetworkCall()
     }
     binding.helloButton.setOnClickListener {
       lifecycleScope.launch {
@@ -84,7 +82,7 @@ class FirstFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
 
     viewModel.resultLiveData.observe(viewLifecycleOwner) { data ->
-      postsAdapter.posts = data.result
+      postsAdapter.posts = data
       postsAdapter.notifyDataSetChanged()
     }
 
