@@ -3,8 +3,9 @@ package edu.programmingclasses2024winter
 import edu.programmingclasses2024winter.persistence.post.PostDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class PostRepository(
+class PostRepository @Inject constructor(
   private val dao: PostDao,
   private val mapper: PostMapper
 ) {

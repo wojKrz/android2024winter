@@ -4,51 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.programmingclasses2024winter.usecases.DownloadPostsUseCase
 import edu.programmingclasses2024winter.usecases.ToggleIsPostReadUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.net.UnknownHostException
+import javax.inject.Inject
 
-class FirstViewModel : ViewModel() {
-
-  private val loggingInterceptor = HttpLoggingInterceptor().also {
-    it.level = HttpLoggingInterceptor.Level.BODY
-  }
-
-  private val netClient = OkHttpClient.Builder()
-    .addInterceptor(loggingInterceptor)
-    .build()
-
-  private val retrofit = Retrofit.Builder()
-    .baseUrl("https://jsonplaceholder.typicode.com/")
-    .addConverterFactory(GsonConverterFactory.create())
-    .client(netClient)
-    .build()
-
-  private val api = retrofit.create(NetworkApi::class.java)
-
-  private val dao = MyApplication.database.postDao()
-
-  private val mapper = PostMapper()
-
-  private val repository = PostRepository(
-    dao, mapper
-  )
-
-  private val downloadPostsUseCase = DownloadPostsUseCase(
-    api, repository
-  )
-
-  private val toggleIsPostReadUseCase = ToggleIsPostReadUseCase(
-    repository
-  )
+@HiltViewModel
+class FirstViewModel @Inject constructor(
+  private val downloadPostsUseCase: DownloadPostsUseCase,
+  private val toggleIsPostReadUseCase: ToggleIsPostReadUseCase,
+  private val repository: PostRepository
+) : ViewModel() {
 
   private val _resultLiveData = MutableLiveData<List<Post>>()
   val resultLiveData: LiveData<List<Post>> = _resultLiveData

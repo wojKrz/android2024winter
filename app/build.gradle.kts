@@ -62,6 +62,9 @@ dependencies {
   // To use Kotlin annotation processing tool (kapt)
   kapt("androidx.room:room-compiler:$room_version")
 
+  implementation("com.google.dagger:hilt-android:2.50")
+  kapt("com.google.dagger:hilt-android-compiler:2.50")
+  
   implementation(libs.material)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)

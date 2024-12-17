@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import edu.programmingclasses2024winter.databinding.FragmentFirstBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,6 +32,7 @@ import java.io.IOException
 
 val COUNTER = intPreferencesKey("counter")
 
+@AndroidEntryPoint
 class FirstFragment : Fragment() {
 
   private val postsAdapter = PostListAdapter(
