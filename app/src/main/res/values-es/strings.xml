@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="hello_world">Hola Mundo</string>
+  <string name="tiger_roar">Roar Senior</string>
+  <string name="meow">Méow</string>
 </resources>

@@ -15,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import edu.programmingclasses2024winter.cat.Cat
+import edu.programmingclasses2024winter.cat.Tiger
 import edu.programmingclasses2024winter.databinding.FragmentFirstBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -29,6 +31,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import javax.inject.Inject
 
 val COUNTER = intPreferencesKey("counter")
 
@@ -42,6 +45,9 @@ class FirstFragment : Fragment() {
   private lateinit var binding: FragmentFirstBinding
 
   private val viewModel: FirstViewModel by viewModels()
+
+  @Inject
+  lateinit var cat: Cat
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -63,7 +69,7 @@ class FirstFragment : Fragment() {
     }
 
     binding.navButton.setOnClickListener {
-      viewModel.makeNetworkCall()
+      findNavController().navigate(R.id.actionNavigateToThirdFragment)
     }
     binding.helloButton.setOnClickListener {
       lifecycleScope.launch {

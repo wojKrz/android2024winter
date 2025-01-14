@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ThirdFragment : Fragment() {
 
   private val viewModel: ThirdViewModel by viewModels()
@@ -17,5 +19,10 @@ class ThirdFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? {
     return inflater.inflate(R.layout.fragment_third, container, false)
+  }
+
+  override fun onStart() {
+    super.onStart()
+    viewModel.toString()
   }
 }

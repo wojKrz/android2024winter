@@ -9,8 +9,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import edu.programmingclasses2024winter.databinding.FragmentSecondBinding
 
+@AndroidEntryPoint
 class SecondFragment : Fragment() {
 
   private lateinit var binding: FragmentSecondBinding
