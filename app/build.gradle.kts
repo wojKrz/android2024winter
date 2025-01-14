@@ -22,6 +22,7 @@ android {
 
   buildFeatures {
     dataBinding = true
+    compose = true
   }
 
   buildTypes {
@@ -41,6 +42,12 @@ android {
 
 dependencies {
 
+   implementation(libs.androidx.material3.android)
+  val composeBom = "androidx.compose:compose-bom:2024.12.01"
+  implementation(composeBom)
+    androidTestImplementation(composeBom)
+  implementation ("androidx.compose.ui:ui-tooling-preview")
+  debugImplementation("androidx.compose.ui:ui-tooling")
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.appcompat)
   val nav_version = "2.8.3"

@@ -15,12 +15,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="100dp"
+      android:layout_marginHorizontal="20dp"
+      android:paddingHorizontal="30dp"
+      android:paddingTop="10dp"
+      android:layout_gravity="center|bottom"
+      android:background="@color/purple_700">
+      <Button
+        android:id="@+id/navButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Navigate" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+      <Button
+        android:id="@+id/helloButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Increase counter" />
+    </LinearLayout>
+
     <TextView
       android:id="@+id/counter"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textSize="24sp"
-      android:layout_gravity="center_horizontal|top"/>
+      android:layout_gravity="center_horizontal|top"
+      tools:text="0"/>
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/postsList"
@@ -34,20 +61,6 @@
       android:layout_height="80dp"
       android:layout_gravity="center"
       android:visibility="gone"/>
-
-    <Button
-      android:id="@+id/helloButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom"
-      android:text="Increase counter" />
-
-    <Button
-      android:id="@+id/navButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom|end"
-      android:text="Navigate" />
 
   </FrameLayout>
 </layout>
