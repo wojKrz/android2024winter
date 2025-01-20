@@ -7,15 +7,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import edu.programmingclasses2024winter.databinding.FragmentFirstBinding
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FirstFragment : Fragment() {
   private val viewModel: FirstViewModel by viewModels()
   private lateinit var binding: FragmentFirstBinding
 
   private val postsAdapter = PostsListAdapter(emptyList(), ::onIsReadClick)
+
+  @Inject
+//  @TigerB
+  lateinit var cat: Cat
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -26,6 +34,11 @@ class FirstFragment : Fragment() {
     binding.button.setOnClickListener {
       viewModel.getPosts()
     }
+    binding.navButton.setOnClickListener {
+      findNavController().navigate(R.id.second_fragment)
+    }
+
+    binding.helloText.text = cat.getSound()
 
     return binding.root
   }

@@ -4,50 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.programmingclasses2024winter.FirstViewModel.Error.NoInternet
 import edu.programmingclasses2024winter.OperationResult.Failure
 import edu.programmingclasses2024winter.OperationResult.Success
-import kotlinx.coroutines.Dispatchers
+import edu.programmingclasses2024winter.domain.ToggleIsPostReadUseCase
+import edu.programmingclasses2024winter.domain.UpdatePostsUseCase
+import edu.programmingclasses2024winter.net.PostsApi
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class FirstViewModel : ViewModel() {
-
-  private val loggingInterceptor = HttpLoggingInterceptor().also {
-    it.level = HttpLoggingInterceptor.Level.BODY
-  }
-
-  private val netClient = OkHttpClient.Builder()
-    .addInterceptor(loggingInterceptor)
-    .build()
-  private val retrofit = Retrofit.Builder()
-    .baseUrl("https://jsonplaceholder.typicode.com/")
-    .addConverterFactory(GsonConverterFactory.create())
-    .client(netClient)
-    .build()
-
-  private val postsDao = MyApplication.database.getPostsDao()
-
-  private val postsApi = retrofit.create(PostsApi::class.java)
-
-  private val postMapper = PostMapper()
-
-  private val postRepository = PostRepository(
-    postsDao, postMapper
-  )
-
-  private val updatePostsUseCase = UpdatePostsUseCase(
-    Dispatchers.IO,
-    postsApi,
-    postRepository
-  )
-
-  private val toggleIsPostReadUseCase = ToggleIsPostReadUseCase(
-    postRepository
-  )
+@HiltViewModel
+class FirstViewModel @Inject constructor(
+  private val updatePostsUseCase: UpdatePostsUseCase,
+  private val toggleIsPostReadUseCase: ToggleIsPostReadUseCase,
+  private val postRepository: PostRepository
+) : ViewModel() {
 
   private val _resultLiveData = MutableLiveData<List<Post>>()
   val resultLiveData: LiveData<List<Post>> = _resultLiveData

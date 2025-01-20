@@ -1,8 +1,9 @@
 package edu.programmingclasses2024winter
 
 import edu.programmingclasses2024winter.persistence.posts.PostEntity
+import javax.inject.Inject
 
-class PostMapper {
+class PostMapper @Inject constructor() {
   fun mapPostToDatabaseEntity(post: Post): PostEntity = with(post) {
     PostEntity(
       id = id,

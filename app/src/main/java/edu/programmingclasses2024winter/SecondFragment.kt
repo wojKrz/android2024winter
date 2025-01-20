@@ -7,9 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import edu.programmingclasses2024winter.databinding.FragmentSecondBinding
+import edu.programmingclasses2024winter.net.PostsApi
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SecondFragment : Fragment() {
+
+  @Inject
+  lateinit var postApi: PostsApi
 
   override fun onCreateView(
     inflater: LayoutInflater,
