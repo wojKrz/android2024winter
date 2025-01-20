@@ -2,33 +2,49 @@
 <layout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools">
-  <LinearLayout
+  <FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <Button
-      android:id="@+id/navButton"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Second screen" />
+    android:layout_height="match_parent">
 
-    <Button
-      android:id="@+id/button"
+    <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/press_me" />
+      android:layout_height="160dp"
+      android:layout_gravity="bottom"
+      android:gravity="center"
+      android:layout_marginHorizontal="16dp"
+      android:layout_marginBottom="8dp"
+      android:padding="14dp"
+      android:background="@color/material_dynamic_primary0"
+      android:orientation="horizontal"
+      android:translationZ="10dp">
+      <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:text="@string/press_me"
+        android:layout_weight="1"/>
 
-    <TextView
-      android:id="@+id/helloText"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:text="@string/hello_world" />
+      <Button
+        android:id="@+id/third"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Third"
+        android:layout_weight="1"/>
+
+      <Button
+        android:id="@+id/navButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Second screen"
+        android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/listLayout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       tools:listitem="@layout/item_post"/>
-  </LinearLayout>
+  </FrameLayout>
 </layout>

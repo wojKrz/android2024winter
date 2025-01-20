@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
 
-  <LinearLayout
+<FrameLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
-
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/listLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:listitem="@layout/item_post"/>
     <TextView
       android:id="@+id/resultText"
       android:textSize="64sp"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content"
+      tools:text="Lorem ipsum"/>
     <Button
       android:id="@+id/navigateFurther"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
       android:text="Navigate further"/>
-  </LinearLayout>
+
+    <Button
+      android:id="@+id/otherButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|end"
+      android:text="Other"/>
+  </FrameLayout>
 </layout>

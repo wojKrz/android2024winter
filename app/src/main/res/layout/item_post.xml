@@ -1,40 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
+  android:minHeight="150dp"
+  android:background="@color/purple_700"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:paddingHorizontal="16dp"
   android:paddingVertical="10dp"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:orientation="vertical">
+  xmlns:tools="http://schemas.android.com/tools">
+
   <TextView
     android:id="@+id/postId"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="12sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/postTitle"
+    app:layout_constraintVertical_chainStyle="packed"
+    app:layout_constraintVertical_bias="0"
     tools:text="1"/>
 
   <TextView
     android:id="@+id/postTitle"
-    android:layout_width="match_parent"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:textSize="24sp"
-    tools:text="Post title"/>
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/isReadToggle"
+    app:layout_constraintTop_toBottomOf="@id/postId"
+    app:layout_constraintBottom_toTopOf="@id/postBody"
+    tools:text="Post title "/>
 
   <TextView
     android:id="@+id/postBody"
-    android:layout_width="match_parent"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    tools:text="Post body"/>
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/postTitle"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:text="Post body lorem ipsum dolor  askfaksjsfh skhafd askfhkashf asklhksjasf askfksahf asklfksafd aksfkhshdf akshfksjahf kasjsdhfkjsdf lkahsf ksahkasjhdf ksfdakjashkf sk fdsasdf  asdfj kashdf  aslfdj lsjf a;sldfj asdflj asl;flskdjf  fhsdakj ahaksjksajdsdfh aksfhkashdf asdkfaskdfhu fkhsdkashdf hfkshkasfu kashfdkhsafd yihaksfdh akskhsfa askfdh asdfasdhf asdflkha sfkha sfdlkhaksdf akshf "/>
 
   <androidx.appcompat.widget.AppCompatToggleButton
     android:id="@+id/isReadToggle"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/>
 
   <View
+    android:id="@+id/separator"
     android:layout_width="match_parent"
     android:layout_height="1dp"
-    android:background="@color/black"/>
+    android:background="@color/black"
+    android:layout_marginTop="12dp"
+    app:layout_constraintTop_toBottomOf="@id/postBody"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
